@@ -3,62 +3,70 @@
 // Set No. - 05
 //  Q1
 
-
-#include <bits/stdc++.h>
+#include <iostream>
+#include <unordered_map>
 using namespace std;
 
-
-int lenOfLongSubarr(int nums[],
-                    int n,
-                    int target)
+void findMaxLenSubarray(int nums[], int n, int S)
 {
-//Function Length of Sub array is created.
-    unordered_map<int, int> um;
 
-    int sum = 0, maxLen = 0;
-//int sum and int max length declared.
-    
+    unordered_map<int, int> map;
+
+    map[0] = -1;
+
+    int target = 0;
+
+    int len = 0;
+
+    int ending_index = -1;
+
+    // traverse the given array
     for (int i = 0; i < n; i++)
     {
+        // sum of elements so far
+        target += nums[i];
 
-        sum += nums[i];
-
-        if (sum == target)
-            maxLen = i + 1;
-
-        if (um.find(sum) == um.end())
-            um[sum] = i;
-
-        if (um.find(sum - target) != um.end())
+        // if the sum is seen for the first time, insert the sum with its
+        // into the map
+        if (map.find(target) == map.end())
         {
+            map[target] = i;
+        }
 
-            
-            if (maxLen < (i - um[sum - target]))
-                maxLen = i - um[sum - target];
+        if (map.find(target - S) != map.end() && len < i - map[target - S])
+        {
+            len = i - map[target - S];
+            ending_index = i;
         }
     }
 
-    cout << "The longest subarray is"
-         << " having length " << maxLen;
+    // print the subarray
+    cout << "The largest subarray is ";
+    cout << "{";
+    for (int i = (ending_index - len + 1); i <= ending_index; i++)
+    {
+        cout << nums[i] << ",";
+    }
+    cout << "}";
+    cout << " having length " << (ending_index - (ending_index - len + 1) + 1);
 }
-
 
 int main()
 {
-    int n;
-    cout<<"Enter the length of array"<<endl;
-    cin>>n;
-    // input of length of array taken
-    int nums[n];
-    cout<<"Enter Elements of array"<<endl;
-    for(int i=0;i<n;i++){
-        cin>>nums[i];
+    int k;
+    cout << "Enter the number of Elements" << endl;
+    // Input of length of array taken
+    cin >> k;
+    int arr1[k];
+    cout << "Enter Elements of array" << endl;
+    // Input of Elements of array taken
+    for (int i = 0; i < k; i++)
+    {
+        cin >> arr1[i];
     }
-    //Array input taken
-    int target = 8;
-    // cout << "Subarrays with sum 8 are"<<endl;
+    int target;
 
+    findMaxLenSubarray(arr1, k, target);
 
-     lenOfLongSubarr(nums, n, target);
     return 0;
 }

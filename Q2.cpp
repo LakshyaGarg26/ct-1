@@ -32,7 +32,7 @@ void printAllSubarrays(int arr1[], int k)
                 }
                 cout << "}";
                 cout << endl;
-                // cout << "Subarray [" << i << "…" << j << "]\n";
+                
             }
         }
     }
